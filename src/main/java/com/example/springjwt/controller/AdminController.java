@@ -1,16 +1,15 @@
 package com.example.springjwt.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@ResponseBody
 public class AdminController {
 
     @GetMapping("/admin")
-    public String adminP() {
+    public String adminP(Model model) {
 
-        return "Admin Controller";
+        return "adminPage";
     }
 }
