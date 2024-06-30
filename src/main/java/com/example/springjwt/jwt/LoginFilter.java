@@ -1,7 +1,10 @@
 package com.example.springjwt.jwt;
 
 import com.example.springjwt.dto.CustomUserDetails;
+import io.jsonwebtoken.io.IOException;
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -53,10 +56,15 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
         String role = auth.getAuthority();
 
-
         String token = jwtUtil.createJwt(username, role, 24 * 60 * 60 * 1000L);
+        String full_token = "Bearer " + token;
 
-        System.out.println("Bearer " + token);
+        System.out.println(full_token);
+
+        Cookie cookie = new Cookie("jwtToken", token);
+        cookie.setMaxAge(86400);        // 쿠키 유효 시간 설정 (예: 1시간)
+        cookie.setPath("/");           // 쿠키의 유효 경로 설정
+        response.addCookie(cookie);
 
         response.addHeader("Authorization", "Bearer " + token);
     }
